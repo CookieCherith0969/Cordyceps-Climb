@@ -51,6 +51,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   origin: {fileID: 0}
   doReset: 1
+  transitions: []
+  northDoors: []
+  eastDoors: []
+  southDoors: []
+  westDoors: []
 --- !u!1001 &467754239738239057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2911541182266127325, guid: 8efd8a17bf781cb48900493eb16b413b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2911541182266127325, guid: 8efd8a17bf781cb48900493eb16b413b, type: 3}
       propertyPath: m_LocalRotation.w

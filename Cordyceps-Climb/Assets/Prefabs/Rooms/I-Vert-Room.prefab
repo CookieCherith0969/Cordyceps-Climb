@@ -51,6 +51,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   origin: {fileID: 0}
   doReset: 1
+  transitions: []
+  northDoors: []
+  eastDoors: []
+  southDoors: []
+  westDoors: []
 --- !u!1001 &4654907999108771041
 PrefabInstance:
   m_ObjectHideFlags: 0

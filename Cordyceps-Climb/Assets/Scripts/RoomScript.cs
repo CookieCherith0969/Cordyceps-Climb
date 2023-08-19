@@ -6,7 +6,6 @@ public class RoomScript : MonoBehaviour
 {
     public Transform origin;
     public bool doReset = true;
-    public List<Transform> transitions;
     public List<Transform> northDoors;
     public List<Transform> eastDoors;
     public List<Transform> southDoors;
@@ -17,12 +16,24 @@ public class RoomScript : MonoBehaviour
         origin = transform.Find("Origin");
         foreach (Transform child in gameObject.transform)
         {
-            if(child.CompareTag("Transition"))
+            if(child.CompareTag("Door"))
             {
-                transitions.Add(child);
-                if(child.rotation.eulerAngles == new Vector3(0, 0, 0))
+                float angle = child.rotation.eulerAngles.z;
+                if (angle < 45 && angle > -45)
                 {
-
+                    eastDoors.Add(child);
+                }
+                else if (angle > 135 || angle < -135)
+                {
+                    westDoors.Add(child);
+                }
+                else if (angle > 45)
+                {
+                    northDoors.Add(child);
+                }
+                else
+                {
+                    southDoors.Add(child);
                 }
             }
         }
