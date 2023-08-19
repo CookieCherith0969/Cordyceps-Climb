@@ -6,13 +6,15 @@ public class PlayerMovement : MonoBehaviour
 {
     private float horizontal;
     private float vertical;
-    private float speed = 8f;
+    [SerializeField] private float speed = 8f;
     private bool isFacingRight = true;
+    private Rigidbody2D rb;
+    private Vector2 movementDirection;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -20,33 +22,15 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        
-        if (Input.GetKey("up"))
-        {
-            transform.position = transform.position + new Vector3(0, speed * Time.deltaTime, 0);
-        }
 
-        if (Input.GetKey("down"))
-        {
-            transform.position = transform.position + new Vector3(0, -speed * Time.deltaTime, 0);
-        }
-
-        if (Input.GetKey("right"))
-        {
-            transform.position = transform.position + new Vector3(speed * Time.deltaTime, 0, 0);
-        }
-
-        if (Input.GetKey("left"))
-        {
-            transform.position = transform.position + new Vector3(-speed * Time.deltaTime, 0, 0);
-        }
+        movementDirection = new Vector2(horizontal, vertical);
 
         Flip();
     }
 
     private void FixedUpdate()
     {
-        
+        rb.velocity = movementDirection * speed;
     }
 
     private void Flip()
