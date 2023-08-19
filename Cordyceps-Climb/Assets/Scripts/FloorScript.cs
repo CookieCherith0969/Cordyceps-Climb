@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class FloorScript : MonoBehaviour
 {
-    RoomScript parent;
+    RoomScript room;
     //[SerializeField]
     //Vector3 origin = new Vector3(0, 0, 0);
     private void Start()
     {
-        parent = gameObject.transform.parent.GetComponent<RoomScript>();
+        room = gameObject.transform.parent.GetComponent<RoomScript>();
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        // Destroy everything that leaves the trigger
-        other.transform.SetPositionAndRotation(parent.origin, other.transform.rotation);
+        if (room.doReset)
+        {
+            other.transform.SetPositionAndRotation(room.origin, other.transform.rotation);
+        }
+        
     }
 }
