@@ -5,7 +5,6 @@ using UnityEngine;
 public class TransitionScript : MonoBehaviour
 {
     RoomScript parent;
-
     Transform marker;
     // Start is called before the first frame update
     void Start()
