@@ -15,7 +15,7 @@ public class FloorScript : MonoBehaviour
     {
         if (room.doReset)
         {
-            other.transform.SetPositionAndRotation(room.origin, other.transform.rotation);
+            other.transform.SetPositionAndRotation(room.origin.position, other.transform.rotation);
         }
         
     }

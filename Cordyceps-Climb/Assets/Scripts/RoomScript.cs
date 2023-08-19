@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class RoomScript : MonoBehaviour
 {
-    public Vector3 origin = new Vector3(0, 0, 0);
+    public Transform origin;
     public bool doReset = true;
+    public List<Transform> transitions;
     // Start is called before the first frame update
     void Start()
     {
-        origin = transform.position;
+        origin = transform.Find("Origin");
+        foreach (Transform child in gameObject.transform)
+        {
+            if(child.tag == "Transition")
+            {
+                transitions.Add(child);
+            }
+        }
     }
 
     // Update is called once per frame
