@@ -6,10 +6,11 @@ public class PlayerMovement : MonoBehaviour
 {
     private float horizontal;
     private float vertical;
-    [SerializeField] private float speed = 8f;
+    [SerializeField] private float movementSpeed = 8f;
     private bool isFacingRight = true;
     private Rigidbody2D rb;
     private Vector2 movementDirection;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = movementDirection * speed;
+        rb.velocity = movementDirection * movementSpeed;
     }
 
     private void Flip()
