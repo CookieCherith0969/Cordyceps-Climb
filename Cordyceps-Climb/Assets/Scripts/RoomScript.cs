@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class RoomScript : MonoBehaviour
 {
-    public Vector3 origin = new Vector3(0, 0, 0);
+    public Transform origin;
     public bool doReset = true;
+    public List<Transform> transitions;
+    public List<Transform> northDoors;
+    public List<Transform> eastDoors;
+    public List<Transform> southDoors;
+    public List<Transform> westDoors;
     // Start is called before the first frame update
     void Start()
     {
-        origin = transform.position;
+        origin = transform.Find("Origin");
+        foreach (Transform child in gameObject.transform)
+        {
+            if(child.CompareTag("Transition"))
+            {
+                transitions.Add(child);
+                if(child.rotation.eulerAngles == new Vector3(0, 0, 0))
+                {
+
+                }
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

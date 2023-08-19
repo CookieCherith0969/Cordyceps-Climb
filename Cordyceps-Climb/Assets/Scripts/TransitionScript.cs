@@ -5,15 +5,11 @@ using UnityEngine;
 public class TransitionScript : MonoBehaviour
 {
     RoomScript parent;
-    public RoomScript target;
-
-    public Vector3 markerParent;
-    public Vector3 markerTarget;
+    Transform marker;
     // Start is called before the first frame update
     void Start()
     {
-        markerParent = transform.Find("MarkerParent").transform.position;
-        markerTarget = transform.Find("MarkerTarget").transform.position;
+        marker = transform.Find("Marker").transform;
         parent = gameObject.transform.parent.GetComponent<RoomScript>();
     }
 
@@ -30,21 +26,10 @@ public class TransitionScript : MonoBehaviour
     private IEnumerator ChangeRoom(float time, Collider2D other)
     {
         
-        Vector3 otherPosition = other.transform.position;
-        if (Vector3.Distance(otherPosition, markerParent) > Vector3.Distance(otherPosition, markerTarget))
-        {
-            target.doReset = false;
-            other.transform.SetPositionAndRotation(markerParent, other.transform.rotation);
-            yield return new WaitForSeconds(time);
-            target.doReset = true;
-        }
-        else
-        {
-            parent.doReset = false;
-            other.transform.SetPositionAndRotation(markerTarget, other.transform.rotation);
-            yield return new WaitForSeconds(time);
-            parent.doReset = true;
-        }
+        parent.doReset = false;
+        other.transform.SetPositionAndRotation(marker.position, other.transform.rotation);
+        yield return new WaitForSeconds(time);
+        parent.doReset = true;
         
     }
 }
