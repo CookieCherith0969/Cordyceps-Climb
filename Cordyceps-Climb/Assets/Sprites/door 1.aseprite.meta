@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2a40e50e9d9cb5347bf9ad06ecea6eb9
+guid: 1b35b4d194db55f42a43cfd1bffdb9a5
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638280941914802617
+  platformSettingsDirtyTick: 638281443518059358
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -119,18 +119,38 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: door_Frame_1
+  - name: door 1_Frame_6
     originalName: 
-    pivot: {x: 0.60655737, y: 0.09375}
+    pivot: {x: 0.6219512, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 97
+      y: 253
+      width: 82
+      height: 104
+    spriteID: b45b70a5526e6094d8f31037045d75d9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 97, y: 253}
+  - name: door 1_Frame_7
+    originalName: 
+    pivot: {x: 0.6, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 276
-      width: 61
-      height: 128
-    spriteID: daf04b344756f7b45bb7dc4ac187731b
+      y: 253
+      width: 85
+      height: 104
+    spriteID: e9448ebd58727454697c0f49e04f5ac5
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -138,59 +158,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 276}
-  - name: door_Frame_2
+    uvTransform: {x: 4, y: 253}
+  - name: door 1_Frame_16
     originalName: 
-    pivot: {x: 0.60655737, y: 0.09375}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 230
-      y: 167
-      width: 61
-      height: 128
-    spriteID: 699bff46e770f354698c9c505881e5a7
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 230, y: 167}
-  - name: door_Frame_3
-    originalName: 
-    pivot: {x: 0.7037037, y: 0.09375}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 140
-      width: 81
-      height: 128
-    spriteID: 14b16b6c5f3573540a12e75286b248b8
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 140}
-  - name: door_Frame_4
-    originalName: 
-    pivot: {x: 0.6219512, y: 0.09375}
+    pivot: {x: 0.5, y: -0.2987013}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 82
-      height: 128
-    spriteID: 21f2a17b57fb3f541b6ae2b9a2b58dca
+      width: 128
+      height: 77
+    spriteID: 4b6da24d6979fa64c8167e5b7667863a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -199,18 +179,18 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: door_Frame_0
+  - name: door 1_Frame_17
     originalName: 
-    pivot: {x: 0.5862069, y: 0.09375}
+    pivot: {x: 0.5, y: -0.2987013}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 230
-      y: 303
-      width: 58
-      height: 128
-    spriteID: 8953ea99905a15e44b12aa69d0df8cc3
+      x: 140
+      y: 4
+      width: 128
+      height: 77
+    spriteID: 97ffb67da73f9814caaaa9d9a5e5d587
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -218,19 +198,159 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 230, y: 303}
-  - name: door_Frame_5
+    uvTransform: {x: 140, y: 4}
+  - name: door 1_Frame_18
+    originalName: 
+    pivot: {x: 0.5, y: -0.2987013}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 276
+      y: 4
+      width: 128
+      height: 77
+    spriteID: 2933650568251e04398fa448f8ab4ab2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 276, y: 4}
+  - name: door 1_Frame_1
+    originalName: 
+    pivot: {x: 0.60655737, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 365
+      width: 61
+      height: 104
+    spriteID: 15ec96853e83ebb40867124b0bc171bb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 365}
+  - name: door 1_Frame_2
+    originalName: 
+    pivot: {x: 0.60655737, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 73
+      y: 365
+      width: 61
+      height: 104
+    spriteID: 1904af6703113ca4e9d81cc98c2b4ab3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 73, y: 365}
+  - name: door 1_Frame_3
+    originalName: 
+    pivot: {x: 0.7037037, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 367
+      y: 253
+      width: 81
+      height: 104
+    spriteID: 2c47dd78408104e47be3a02c864e6790
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 367, y: 253}
+  - name: door 1_Frame_4
+    originalName: 
+    pivot: {x: 0.6219512, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 187
+      y: 253
+      width: 82
+      height: 104
+    spriteID: 9abb8ad12495c29408696d309abdde19
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 187, y: 253}
+  - name: door 1_Frame_5
+    originalName: 
+    pivot: {x: 0.6219512, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 277
+      y: 253
+      width: 82
+      height: 104
+    spriteID: 8fc60493953ef604e8c30338f3b3fe13
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 277, y: 253}
+  - name: door 1_Frame_0
+    originalName: 
+    pivot: {x: 0.5862069, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 142
+      y: 365
+      width: 58
+      height: 104
+    spriteID: 1ec1e02a0b5391442a0a70185a1c97df
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 142, y: 365}
+  - name: door 1_Frame_8
     originalName: 
     pivot: {x: 0.5, y: -0.36986303}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 230
-      y: 86
+      x: 276
+      y: 89
       width: 128
       height: 73
-    spriteID: fc5ec19320a1a39419a535351340acae
+    spriteID: e8e6da9033e58fb44ac231b2d0a4005a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -238,19 +358,59 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 230, y: 86}
-  - name: door_Frame_6
+    uvTransform: {x: 276, y: 89}
+  - name: door 1_Frame_9
+    originalName: 
+    pivot: {x: 0.5, y: -0.36986303}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 172
+      width: 128
+      height: 73
+    spriteID: f20a637ce8e91c949ac544c6e637eb34
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 172}
+  - name: door 1_Frame_10
+    originalName: 
+    pivot: {x: 0.5, y: -0.36986303}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 140
+      y: 172
+      width: 128
+      height: 73
+    spriteID: 997fc7d034485014187d42b8d5e544fe
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 140, y: 172}
+  - name: door 1_Frame_11
     originalName: 
     pivot: {x: 0.5, y: -0.35135135}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 94
-      y: 419
+      x: 140
+      y: 89
       width: 128
       height: 74
-    spriteID: 0621f5d7f209a484282eba25ca682745
+    spriteID: f8f07320492adff4d8d384805578fa3a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -258,19 +418,39 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 94, y: 419}
-  - name: door_Frame_7
+    uvTransform: {x: 140, y: 89}
+  - name: door 1_Frame_12
+    originalName: 
+    pivot: {x: 0.5, y: -0.36986303}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 276
+      y: 172
+      width: 128
+      height: 73
+    spriteID: 53b6a33c4a155db45a30f12a4455e3d2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 276, y: 172}
+  - name: door 1_Frame_13
     originalName: 
     pivot: {x: 0.5, y: -0.3333333}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 94
-      y: 4
+      x: 4
+      y: 89
       width: 128
       height: 75
-    spriteID: 491324e6c26c0f34a8660cba68e38a2c
+    spriteID: 2f7a8337d3030a949a9165d2b44ba71c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -278,220 +458,152 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 94, y: 4}
-  - name: door_Frame_8
-    originalName: 
-    pivot: {x: 0.5, y: -0.35135135}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 230
-      y: 4
-      width: 128
-      height: 74
-    spriteID: 125c001774865b1408198ea6103c6d90
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 230, y: 4}
-  - name: door_Frame_9
-    originalName: 
-    pivot: {x: 0.5, y: -0.3333333}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 94
-      y: 87
-      width: 128
-      height: 75
-    spriteID: 0dfcce239ebf57346be7f46717455773
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 94, y: 87}
-  - name: door_Frame_10
-    originalName: 
-    pivot: {x: 0.5, y: -0.3333333}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 94
-      y: 170
-      width: 128
-      height: 75
-    spriteID: aefd610800b794e4ca31db09a0e0fd1e
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 94, y: 170}
-  - name: door_Frame_11
-    originalName: 
-    pivot: {x: 0.5, y: -0.3333333}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 94
-      y: 253
-      width: 128
-      height: 75
-    spriteID: aed8f89b98ba4464c8f5ab7a3d6512fa
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 94, y: 253}
-  - name: door_Frame_12
-    originalName: 
-    pivot: {x: 0.5, y: -0.3333333}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 94
-      y: 336
-      width: 128
-      height: 75
-    spriteID: 89a56106f9254604b9491d569a5e9745
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 94, y: 336}
+    uvTransform: {x: 4, y: 89}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1910036562
-    name: door
+    guid: -1504424833
+    name: door 1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: door_Frame_1
+    - name: door 1_Frame_6
+      frameIndex: 6
+      cellRect:
+        x: 1
+        y: 0
+        width: 82
+        height: 104
+      spriteId: b45b70a5526e6094d8f31037045d75d9
+    - name: door 1_Frame_7
+      frameIndex: 7
+      cellRect:
+        x: 1
+        y: 0
+        width: 85
+        height: 104
+      spriteId: e9448ebd58727454697c0f49e04f5ac5
+    - name: door 1_Frame_14
+      frameIndex: 14
+      cellRect:
+        x: -12
+        y: 23
+        width: 128
+        height: 77
+      spriteId: 4b6da24d6979fa64c8167e5b7667863a
+    - name: door 1_Frame_15
+      frameIndex: 15
+      cellRect:
+        x: -12
+        y: 23
+        width: 128
+        height: 77
+      spriteId: 97ffb67da73f9814caaaa9d9a5e5d587
+    - name: door 1_Frame_16
+      frameIndex: 16
+      cellRect:
+        x: -12
+        y: 23
+        width: 128
+        height: 77
+      spriteId: 2933650568251e04398fa448f8ab4ab2
+    - name: door 1_Frame_1
       frameIndex: 1
       cellRect:
         x: 15
-        y: -12
+        y: 0
         width: 61
-        height: 128
-      spriteId: daf04b344756f7b45bb7dc4ac187731b
-    - name: door_Frame_2
+        height: 104
+      spriteId: 15ec96853e83ebb40867124b0bc171bb
+    - name: door 1_Frame_2
       frameIndex: 2
       cellRect:
         x: 15
-        y: -12
+        y: 0
         width: 61
-        height: 128
-      spriteId: 699bff46e770f354698c9c505881e5a7
-    - name: door_Frame_3
+        height: 104
+      spriteId: 1904af6703113ca4e9d81cc98c2b4ab3
+    - name: door 1_Frame_3
       frameIndex: 3
       cellRect:
         x: -5
-        y: -12
+        y: 0
         width: 81
-        height: 128
-      spriteId: 14b16b6c5f3573540a12e75286b248b8
-    - name: door_Frame_4
+        height: 104
+      spriteId: 2c47dd78408104e47be3a02c864e6790
+    - name: door 1_Frame_4
       frameIndex: 4
       cellRect:
         x: 1
-        y: -12
+        y: 0
         width: 82
-        height: 128
-      spriteId: 21f2a17b57fb3f541b6ae2b9a2b58dca
-    - name: door_Frame_0
+        height: 104
+      spriteId: 9abb8ad12495c29408696d309abdde19
+    - name: door 1_Frame_5
+      frameIndex: 5
+      cellRect:
+        x: 1
+        y: 0
+        width: 82
+        height: 104
+      spriteId: 8fc60493953ef604e8c30338f3b3fe13
+    - name: door 1_Frame_0
       frameIndex: 0
       cellRect:
         x: 18
-        y: -12
+        y: 0
         width: 58
-        height: 128
-      spriteId: 8953ea99905a15e44b12aa69d0df8cc3
-    - name: door_Frame_5
-      frameIndex: 5
+        height: 104
+      spriteId: 1ec1e02a0b5391442a0a70185a1c97df
+    - name: door 1_Frame_8
+      frameIndex: 8
       cellRect:
         x: -12
         y: 27
         width: 128
         height: 73
-      spriteId: fc5ec19320a1a39419a535351340acae
-    - name: door_Frame_6
-      frameIndex: 6
-      cellRect:
-        x: -12
-        y: 26
-        width: 128
-        height: 74
-      spriteId: 0621f5d7f209a484282eba25ca682745
-    - name: door_Frame_7
-      frameIndex: 7
-      cellRect:
-        x: -12
-        y: 25
-        width: 128
-        height: 75
-      spriteId: 491324e6c26c0f34a8660cba68e38a2c
-    - name: door_Frame_8
-      frameIndex: 8
-      cellRect:
-        x: -12
-        y: 26
-        width: 128
-        height: 74
-      spriteId: 125c001774865b1408198ea6103c6d90
-    - name: door_Frame_9
+      spriteId: e8e6da9033e58fb44ac231b2d0a4005a
+    - name: door 1_Frame_9
       frameIndex: 9
       cellRect:
         x: -12
-        y: 25
+        y: 27
         width: 128
-        height: 75
-      spriteId: 0dfcce239ebf57346be7f46717455773
-    - name: door_Frame_10
+        height: 73
+      spriteId: f20a637ce8e91c949ac544c6e637eb34
+    - name: door 1_Frame_10
       frameIndex: 10
       cellRect:
         x: -12
-        y: 25
+        y: 27
         width: 128
-        height: 75
-      spriteId: aefd610800b794e4ca31db09a0e0fd1e
-    - name: door_Frame_11
+        height: 73
+      spriteId: 997fc7d034485014187d42b8d5e544fe
+    - name: door 1_Frame_11
       frameIndex: 11
       cellRect:
         x: -12
-        y: 25
+        y: 26
         width: 128
-        height: 75
-      spriteId: aed8f89b98ba4464c8f5ab7a3d6512fa
-    - name: door_Frame_12
+        height: 74
+      spriteId: f8f07320492adff4d8d384805578fa3a
+    - name: door 1_Frame_12
       frameIndex: 12
+      cellRect:
+        x: -12
+        y: 27
+        width: 128
+        height: 73
+      spriteId: 53b6a33c4a155db45a30f12a4455e3d2
+    - name: door 1_Frame_13
+      frameIndex: 13
       cellRect:
         x: -12
         y: 25
         width: 128
         height: 75
-      spriteId: 89a56106f9254604b9491d569a5e9745
+      spriteId: 2f7a8337d3030a949a9165d2b44ba71c
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -520,18 +632,6 @@ ScriptedImporter:
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
   - name: Server
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: WebGL
     overridden: 0
     ignorePlatformSupport: 0
     maxTextureSize: 2048
