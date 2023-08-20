@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
         if (boxScript.targets.Count > 0)
         {
             
-            List<ICreature> targets = boxScript.targets;
+            List<ICreature> targets = new List<ICreature>(boxScript.targets);
             boxScript.targets.Clear();
             List<int> baseHealth = new List<int>();
             foreach (ICreature target in targets)
@@ -144,6 +144,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
                 if (feeding)
                 {
                     int i = 0;
+                    List<int> toRemove = new List<int>();
                     foreach (ICreature target in targets)
                     {
                         if (target.Damage(damage))
@@ -153,29 +154,39 @@ public class PlayerMovement : MonoBehaviour, ICreature
                             {
                                 health = maxHealth;
                             }
-                            baseHealth.RemoveAt(i);
-                            targets.RemoveAt(i);
+                            toRemove.Add(i);
+                            
                             continue;
                         }
                         i++;
+                    }
+                    foreach(int remove in toRemove)
+                    {
+                        baseHealth.RemoveAt(remove);
+                        targets.RemoveAt(remove);
                     }
                         
                 }
                 else
                 {
                     int i = 0;
+                    List<int> toRemove = new List<int>();
                     foreach (ICreature target in targets)
                     {
                         if (target.Infect(damage))
                         {
                             target.SetHealth(baseHealth[i]);
-                            
-                            baseHealth.RemoveAt(i);
+
+                            toRemove.Add(i);
                             target.Free();
-                            targets.RemoveAt(i);
                             continue;
                         }
                         i++;
+                    }
+                    foreach (int remove in toRemove)
+                    {
+                        baseHealth.RemoveAt(remove);
+                        targets.RemoveAt(remove);
                     }
                 }
                 yield return new WaitForSeconds(time);
