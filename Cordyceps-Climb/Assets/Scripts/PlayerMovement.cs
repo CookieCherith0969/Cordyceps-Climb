@@ -14,7 +14,8 @@ public class PlayerMovement : MonoBehaviour, ICreature
     public Animator animator;
     SpriteRenderer sr;
     public int health = 100;
-    public int damage = 5;
+    public int maxHealth = 100;
+    public int damage = 10;
     public bool dead = false;
     public bool feeding = false;
     public bool infecting = false;
@@ -111,48 +112,80 @@ public class PlayerMovement : MonoBehaviour, ICreature
     }
     private IEnumerator EnableBitebox(float delay, float time)
     {
+        Lock();
         bitebox.SetActive(true);
         animator.SetBool("Attacking", true);
-        ICreature target = this;
         yield return new WaitForSeconds(delay);
-        if (boxScript.bit)
+        bitebox.SetActive(false);
+        if (boxScript.targets.Count > 0)
         {
-            animator.speed = 0;
-            target = boxScript.target;
-            int baseHealth = target.GetHealth();
-            while(target.GetHealth() > 0)
+            
+            List<ICreature> targets = boxScript.targets;
+            boxScript.targets.Clear();
+            List<int> baseHealth = new List<int>();
+            foreach (ICreature target in targets)
             {
-                if (!bitebox.activeSelf)
+                baseHealth.Add(target.GetHealth());
+            }
+            while(targets.Count > 0)
+            {
+                if (animator.GetBool("Hurt"))
                 {
-                    target.SetHealth(baseHealth);
+                    int i = 0;
+                    foreach (ICreature target in targets)
+                    {
+                        target.SetHealth(baseHealth[i]);
+                        target.Free();
+                        i++;
+                    }
                     break;
                 }
+
                 if (feeding)
                 {
-                    if (target.Damage(damage))
+                    int i = 0;
+                    foreach (ICreature target in targets)
                     {
-                        health += baseHealth;
-                        break;
+                        if (target.Damage(damage))
+                        {
+                            health += baseHealth[i];
+                            if (health > maxHealth)
+                            {
+                                health = maxHealth;
+                            }
+                            baseHealth.RemoveAt(i);
+                            targets.RemoveAt(i);
+                            continue;
+                        }
+                        i++;
                     }
+                        
                 }
                 else
                 {
-                    if (target.Infect(damage))
+                    int i = 0;
+                    foreach (ICreature target in targets)
                     {
-                        target.SetHealth(baseHealth);
-                        break;
+                        if (target.Infect(damage))
+                        {
+                            target.SetHealth(baseHealth[i]);
+                            
+                            baseHealth.RemoveAt(i);
+                            target.Free();
+                            targets.RemoveAt(i);
+                            continue;
+                        }
+                        i++;
                     }
                 }
                 yield return new WaitForSeconds(time);
             }
-            
         }
-        animator.speed = 1;
+        animator.SetBool("Attacking", false);
         feeding = false;
         infecting = false;
-        boxScript.bit = false;
-        target.Free();
-        bitebox.SetActive(false);
+        
+        Free();
 
     }
     public bool Damage(int amount)

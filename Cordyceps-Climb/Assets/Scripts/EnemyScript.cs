@@ -125,6 +125,7 @@ public class EnemyScript : MonoBehaviour, ICreature
         hurtbox.SetActive(true);
         yield return new WaitForSeconds(time);
         hurtbox.SetActive(false);
+        animator.SetBool("Attacking", false);
 
     }
     public void Lock()
@@ -143,7 +144,7 @@ public class EnemyScript : MonoBehaviour, ICreature
     public bool Damage(int amount)
     {
         health -= amount;
-        healthBar.localScale = new Vector3(2* (health / maxHealth), healthBar.localScale.y, healthBar.localScale.z);
+        healthBar.localScale = new Vector3(2* ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
         if(health < 1)
         {
             animator.SetBool("Dead", true);
@@ -159,7 +160,7 @@ public class EnemyScript : MonoBehaviour, ICreature
             return false;
         }
         health -= amount;
-        healthBar.localScale = new Vector3(2 * (health/maxHealth), healthBar.localScale.y, healthBar.localScale.z);
+        healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
         if (health < 1)
         {
             animator.SetBool("Infected", true);

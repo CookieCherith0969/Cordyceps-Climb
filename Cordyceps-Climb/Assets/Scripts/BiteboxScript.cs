@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class BiteboxScript : MonoBehaviour
 {
-    public ICreature target;
-    public bool bit = false;
+    public List<ICreature> targets;
     // Start is called before the first frame update
     void Start()
     {
-        
+        targets = new List<ICreature>();
     }
 
     // Update is called once per frame
@@ -23,8 +22,7 @@ public class BiteboxScript : MonoBehaviour
         {
             return;
         }
-        target = (ICreature)collision.gameObject.GetComponent(typeof(ICreature));
-        bit = true;
-        target.Lock();
+        targets.Add((ICreature)collision.gameObject.GetComponent(typeof(ICreature)));
+        targets[targets.Count-1].Lock();
     }
 }
