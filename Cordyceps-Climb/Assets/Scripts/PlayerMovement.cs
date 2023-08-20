@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, ICreature
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
     private Vector2 movementDirection;
     public Animator animator;
     SpriteRenderer sr;
+    Transform healthBar;
     public int health = 100;
     public int maxHealth = 100;
     public int damage = 10;
@@ -33,76 +35,76 @@ public class PlayerMovement : MonoBehaviour, ICreature
         boxScript = bitebox.GetComponent<BiteboxScript>();
         cm = transform.parent.GetComponent<CreatureManager>();
         cm.RegisterNew(gameObject);
+        healthBar = transform.Find("HealthBar");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!locked)
-        {
-            if (Input.GetKey(KeyCode.Z))
-            {
-                infecting = true;
-                StartCoroutine(EnableBitebox(0.2f,1f));
-                rb.velocity = Vector2.zero;
-                animator.SetFloat("Velocity", 0);
-                return;
-            }
-            else if (Input.GetKey(KeyCode.X))
-            {
-                feeding = true;
-                StartCoroutine(EnableBitebox(0.2f, 1f));
-                rb.velocity = Vector2.zero;
-                animator.SetFloat("Velocity", 0);
-                return;
-            }
-            else if (Input.GetKey(KeyCode.C))
-            {
-
-            }
-            float horizontal = 0;
-            float vertical = 0;
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                horizontal = 1;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                horizontal = -1;
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                vertical = 1;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                vertical = -1;
-            }
-
-
-            movementDirection = new Vector2(horizontal, vertical).normalized;
-
-            rb.velocity = movementDirection * movementSpeed;
-            if (rb.velocity.x != 0)
-            {
-                transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1, transform.localScale.y, transform.localScale.z);
-
-            }
-
-            animator.SetFloat("Velocity", rb.velocity.magnitude);
-        }
-        else
+        if (locked)
         {
             rb.velocity = Vector2.zero;
             animator.SetFloat("Velocity", 0);
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            infecting = true;
+            StartCoroutine(Attack(1f));
+            rb.velocity = Vector2.zero;
+            animator.SetFloat("Velocity", 0);
+            return;
         }
         
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            feeding = true;
+            StartCoroutine(Attack(1f));
+            rb.velocity = Vector2.zero;
+            animator.SetFloat("Velocity", 0);
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            //Spawn lil mushy guys
+        }
+        float horizontal = 0;
+        float vertical = 0;
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontal = 1;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            horizontal = -1;
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            vertical = 1;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            vertical = -1;
+        }
+
+        movementDirection = new Vector2(horizontal, vertical).normalized;
+
+        rb.velocity = movementDirection * movementSpeed;
+        if (rb.velocity.x != 0)
+        {
+            float newX = Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1;
+            transform.localScale = new Vector3(newX, transform.localScale.y, transform.localScale.z);
+        }
+
+        animator.SetFloat("Velocity", rb.velocity.magnitude);
     }
     public void Lock()
     {
         locked = true;
     }
-    public void Free()
+    public void Unlock()
     {
         locked = false;
     }
@@ -110,110 +112,88 @@ public class PlayerMovement : MonoBehaviour, ICreature
     {
         return health;
     }
-    private IEnumerator EnableBitebox(float delay, float time)
+    private IEnumerator Attack(float tickDelay)
     {
         Lock();
         bitebox.SetActive(true);
         animator.SetBool("Attacking", true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(0.02f);
+        List<ICreature> targets = new(boxScript.targets);
+        boxScript.targets.Clear();
         bitebox.SetActive(false);
-        if (boxScript.targets.Count > 0)
+
+        if (targets.Count > 0)
         {
             
-            List<ICreature> targets = new List<ICreature>(boxScript.targets);
-            boxScript.targets.Clear();
-            List<int> baseHealth = new List<int>();
-            foreach (ICreature target in targets)
+            List<int> baseHealth = targets.Select(x => x.GetHealth()).ToList();
+
+            while (targets.Count > 0)
             {
-                baseHealth.Add(target.GetHealth());
-            }
-            while(targets.Count > 0)
-            {
-                int i = 0;
-                List<int> toRemove = new List<int>();
-                foreach (ICreature target in targets)
-                {
-                    if (target == null)
-                    {
-                        toRemove.Add(i);
-                    }
-                    i++;
-                }
-                foreach (int remove in toRemove)
-                {
-                    baseHealth.RemoveAt(remove);
-                    targets.RemoveAt(remove);
-                }
                 if (animator.GetBool("Hurt"))
                 {
-                    i = 0;
-                    foreach (ICreature target in targets)
-                    {
-                        target.SetHealth(baseHealth[i]);
-                        target.Free();
-                        i++;
+                    for (int i = targets.Count - 1; i >= 0; i--) {
+                        targets[i].SetHealth(baseHealth[i]);
+                        targets[i].ResetInfection();
+                        targets[i].Unlock();
                     }
                     break;
                 }
 
                 if (feeding)
                 {
-                    i = 0;
-                    toRemove = new List<int>();
-                    foreach (ICreature target in targets)
-                    {
-                        if (target.Damage(damage))
-                        {
-                            health += baseHealth[i];
-                            if (health > maxHealth)
-                            {
-                                health = maxHealth;
-                            }
-                            toRemove.Add(i);
-                            
-                            continue;
-                        }
-                        i++;
-                    }
-                    foreach(int remove in toRemove)
-                    {
-                        baseHealth.RemoveAt(remove);
-                        targets.RemoveAt(remove);
-                    }
-                        
+                    FeedingTick(targets, baseHealth);
                 }
                 else
                 {
-                    i = 0;
-                    toRemove = new List<int>();
-                    foreach (ICreature target in targets)
-                    {
-                        if (target.Infect(damage))
-                        {
-                            target.SetHealth(baseHealth[i]);
-                            target.Damage(0);
-                            toRemove.Add(i);
-                            target.Free();
-                            continue;
-                        }
-                        i++;
-                    }
-                    foreach (int remove in toRemove)
-                    {
-                        baseHealth.RemoveAt(remove);
-                        targets.RemoveAt(remove);
-                    }
+                    InfectingTick(targets, baseHealth);
                 }
-                yield return new WaitForSeconds(time);
+                yield return new WaitForSeconds(tickDelay);
             }
         }
         animator.SetBool("Attacking", false);
         feeding = false;
         infecting = false;
-        
-        Free();
-
+        Unlock();
     }
+
+    private void InfectingTick(List<ICreature> targets, List<int> baseHealth)
+    {
+        for (int i = targets.Count - 1; i >= 0; i--)
+        {
+            if ((MonoBehaviour)targets[i] == null)
+            {
+                targets.RemoveAt(i);
+                continue;
+            }
+            if (targets[i].Infect(damage))
+            {
+                targets[i].Unlock();
+                targets.RemoveAt(i);
+                continue;
+            }
+        }
+    }
+
+    private void FeedingTick(List<ICreature> targets, List<int> baseHealth)
+    {
+        for (int i = targets.Count - 1; i >= 0; i--)
+        {
+            if ((MonoBehaviour)targets[i] == null)
+            {
+                targets.RemoveAt(i);
+                continue;
+            }
+            if (targets[i].Damage(damage))
+            {
+                health += baseHealth[i];
+
+                if (health > maxHealth) health = maxHealth;
+                
+                targets.RemoveAt(i);
+            }
+        }
+    }
+
     public bool Damage(int amount)
     {
         if (animator.GetBool("Hurt"))
@@ -221,6 +201,8 @@ public class PlayerMovement : MonoBehaviour, ICreature
             return false;
         }
         health -= amount;
+        if (health < 0) health = 0;
+        healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
         if (health < 1)
         {
             animator.SetBool("Dead", true);
@@ -238,5 +220,12 @@ public class PlayerMovement : MonoBehaviour, ICreature
     public void SetHealth(int amount)
     {
         health = amount;
+        if (health < 0) health = 0;
+        if (health > maxHealth) health = maxHealth;
+        healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
+    }
+    public void ResetInfection()
+    {
+
     }
 }

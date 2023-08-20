@@ -46,6 +46,7 @@ public class CreatureManager : MonoBehaviour
         {
             infected.Add(newChild);
         }
+        Debug.Log("Registered " + newChild.name);
     }
     public void RegisterNew(GameObject newChild)
     {
@@ -57,6 +58,7 @@ public class CreatureManager : MonoBehaviour
         {
             infected.Add(newChild);
         }
+        Debug.Log("Registered " + newChild.name);
     }
     public void Deregister(GameObject child)
     {
@@ -68,6 +70,7 @@ public class CreatureManager : MonoBehaviour
         {
             infected.Remove(child);
         }
+        Debug.Log("Deregistered " + child.name);
     }
     public GameObject GetPlayer()
     {

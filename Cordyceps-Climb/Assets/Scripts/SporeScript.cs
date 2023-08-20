@@ -65,54 +65,47 @@ public class SporeScript : MonoBehaviour, ICreature
     // Update is called once per frame
     void Update()
     {
-        if (!locked)
-        {
-            if (target == null)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetFloat("Velocity", 0);
-                return;
-            }
-            Vector2 delta = target.position - transform.position;
-            delta.Normalize();
-            rb.velocity += delta * speed * Time.deltaTime;
-            if (rb.velocity.magnitude > maxSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * maxSpeed;
-            }
-            transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1, transform.localScale.y, transform.localScale.z);
-            if (!animator.GetBool("Attacking") && Vector2.Distance(hurtbox.transform.position, target.position) < 1)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetBool("Attacking", true);
-                cm.Deregister(gameObject);
-                StartCoroutine(EnableHurtbox(0.2f));
-            }
-            else if (animator.GetBool("Attacking"))
-            {
-                rb.velocity = Vector2.zero;
-            }
-            animator.SetFloat("Velocity", rb.velocity.magnitude);
-        }
-        else
+        if (target == null || locked)
         {
             rb.velocity = Vector2.zero;
             animator.SetFloat("Velocity", 0);
+            return;
         }
 
-    }
-    private IEnumerator EnableHurtbox(float delay)
-    {
+        Vector2 delta = target.position - transform.position;
+        delta.Normalize();
+        rb.velocity += delta * speed * Time.deltaTime;
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * maxSpeed;
+        }
+        transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1, transform.localScale.y, transform.localScale.z);
+        if (!animator.GetBool("Attacking") && Vector2.Distance(hurtbox.transform.position, target.position) < 1)
+        {
+            rb.velocity = Vector2.zero;
+            
+            cm.Deregister(gameObject);
+            StartCoroutine(Attack(0.1f));
+        }
+        else if (animator.GetBool("Attacking"))
+        {
+            rb.velocity = Vector2.zero;
+        }
+        animator.SetFloat("Velocity", rb.velocity.magnitude);
 
+    }
+    private IEnumerator Attack(float delay)
+    {
+        animator.SetBool("Attacking", true);
         yield return new WaitForSeconds(delay);
         hurtbox.SetActive(true);
-
+        //
     }
     public void Lock()
     {
         locked = true;
     }
-    public void Free()
+    public void Unlock()
     {
         locked = false;
     }
@@ -124,6 +117,7 @@ public class SporeScript : MonoBehaviour, ICreature
     public bool Damage(int amount)
     {
         health -= amount;
+        if (health < 0) health = 0;
         healthBar.localScale = new Vector3(1 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
         if (health < 1)
         {
@@ -140,5 +134,11 @@ public class SporeScript : MonoBehaviour, ICreature
     public void SetHealth(int amount)
     {
         health = amount;
+        if (health < 0) health = 0;
+        if (health > maxHealth) health = maxHealth;
+    }
+    public void ResetInfection()
+    {
+
     }
 }

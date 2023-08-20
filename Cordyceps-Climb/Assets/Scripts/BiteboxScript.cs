@@ -22,7 +22,15 @@ public class BiteboxScript : MonoBehaviour
         {
             return;
         }
-        targets.Add((ICreature)collision.gameObject.GetComponent(typeof(ICreature)));
-        targets[targets.Count-1].Lock();
+        if (!collision.gameObject.CompareTag("Enemy"))
+        {
+            return;
+        }
+
+        ICreature creature = (ICreature)collision.gameObject.GetComponent(typeof(ICreature));
+        if (creature == null) return;
+
+        targets.Add(creature);
+        creature.Lock();
     }
 }

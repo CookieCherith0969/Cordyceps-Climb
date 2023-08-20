@@ -19,6 +19,8 @@ public class EnemyScript : MonoBehaviour, ICreature
     CreatureManager cm;
     public bool locked = false;
     Transform healthBar;
+    HurtboxScript hurtboxScript;
+    int infectionCounter = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -27,112 +29,95 @@ public class EnemyScript : MonoBehaviour, ICreature
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         hurtbox = transform.Find("Hurtbox").gameObject;
+        hurtboxScript = hurtbox.GetComponent<HurtboxScript>();
         cm = transform.parent.GetComponent<CreatureManager>();
         cm.RegisterNew(gameObject);
         StartCoroutine(SetTarget());
         healthBar = transform.Find("HealthBar");
+
     }
     private IEnumerator SetTarget()
     {
-        float closeDistance;
-        float distance;
         while (true)
         {
-            if (!infected && cm.infected.Count > 0)
+            target = null;
+            if (!infected)
             {
-
-                target = cm.infected[0].transform;
-                closeDistance = Vector2.Distance(transform.position, target.position);
-
-                foreach (GameObject infected in cm.infected)
-                {
-                    distance = Vector2.Distance(transform.position, infected.transform.position);
-                    if (distance < closeDistance)
-                    {
-                        target = infected.transform;
-                        closeDistance = distance;
-
-                    }
-                }
-            }
-            else if (infected && cm.enemies.Count > 0)
-            {
-                target = cm.enemies[0].transform;
-                closeDistance = Vector2.Distance(transform.position, target.position);
-
-                foreach (GameObject enemy in cm.enemies)
-                {
-                    distance = Vector2.Distance(transform.position, enemy.transform.position);
-                    if (distance < closeDistance)
-                    {
-                        target = enemy.transform;
-                        closeDistance = distance;
-
-                    }
-                }
+                GetTargetFromList(cm.infected);
             }
             else
             {
-                target = null;
+                GetTargetFromList(cm.enemies);
             }
             yield return new WaitForSeconds(1);
         }
-            
-
     }
+
+    private void GetTargetFromList(List<GameObject> possibleTargets)
+    {
+        float closeDistance = float.PositiveInfinity;
+        foreach (GameObject possibleTarget in possibleTargets)
+        {
+            float distance = Vector2.Distance(transform.position, possibleTarget.transform.position);
+            if (distance < closeDistance)
+            {
+                target = possibleTarget.transform;
+                closeDistance = distance;
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (!locked)
-        {
-            if (target == null)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetFloat("Velocity", 0);
-                return;
-            }
-            Vector2 delta = target.position - transform.position;
-            delta.Normalize();
-            rb.velocity += delta * speed * Time.deltaTime;
-            if (rb.velocity.magnitude > maxSpeed)
-            {
-                rb.velocity = rb.velocity.normalized * maxSpeed;
-            }
-            transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1, transform.localScale.y, transform.localScale.z);
-            if (!animator.GetBool("Attacking") && Vector2.Distance(hurtbox.transform.position, target.position) < 1)
-            {
-                rb.velocity = Vector2.zero;
-                animator.SetBool("Attacking", true);
-                StartCoroutine(EnableHurtbox(0.1f, 0.3f));
-            }
-            else if (animator.GetBool("Attacking"))
-            {
-                rb.velocity = Vector2.zero;
-            }
-            animator.SetFloat("Velocity", rb.velocity.magnitude);
-        }
-        else
+        if (locked || target == null || animator.GetBool("Attacking"))
         {
             rb.velocity = Vector2.zero;
             animator.SetFloat("Velocity", 0);
+            return;
         }
 
-    }
-    private IEnumerator EnableHurtbox(float delay, float time)
-    {
+        if (Vector2.Distance(hurtbox.transform.position, target.position) < 0.5f)
+        {
+            rb.velocity = Vector2.zero;
+            StartCoroutine(Attack(0.1f, 0.3f));
+            return;
+        }
 
+        Vector2 delta = target.position - transform.position;
+        delta.Normalize();
+        rb.velocity -= 0.2f*rb.velocity*Time.deltaTime;
+        rb.velocity += delta * speed * Time.deltaTime;
+
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * maxSpeed;
+        }
+
+        animator.SetFloat("Velocity", rb.velocity.magnitude);
+
+        float newX = Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1;
+        transform.localScale = new Vector3(newX, transform.localScale.y, transform.localScale.z);
+    }
+    private IEnumerator Attack(float delay, float duration)
+    {
+        animator.SetBool("Attacking", true);
         yield return new WaitForSeconds(delay);
+        if (locked)
+        {
+            animator.SetBool("Attacking", false);
+            yield break;
+        }
         hurtbox.SetActive(true);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(duration);
         hurtbox.SetActive(false);
         animator.SetBool("Attacking", false);
-
     }
     public void Lock()
     {
         locked = true;
     }
-    public void Free()
+    public void Unlock()
     {
         locked = false;
     }
@@ -144,8 +129,9 @@ public class EnemyScript : MonoBehaviour, ICreature
     public bool Damage(int amount)
     {
         health -= amount;
-        healthBar.localScale = new Vector3(2* ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
-        if(health < 1)
+        if (health < 0) health = 0;
+        healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
+        if (health < 1)
         {
             animator.SetBool("Dead", true);
             cm.Deregister(gameObject);
@@ -160,13 +146,29 @@ public class EnemyScript : MonoBehaviour, ICreature
             return false;
         }
         health -= amount;
+        infectionCounter += amount;
+        if (health < 0)
+        {
+            infectionCounter += health;
+            health = 0;
+        }
         healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
         if (health < 1)
         {
             animator.SetBool("Infected", true);
             infected = true;
+            hurtboxScript.infected = true;
             gameObject.tag = "Infected";
+
             cm.Register(gameObject);
+
+            SetHealth(infectionCounter);
+            infectionCounter = 0;
+            healthBar.GetComponent<SpriteRenderer>().color = Color.red;
+
+            target = null;
+            GetTargetFromList(cm.enemies);
+
             return true;
             
         }
@@ -175,5 +177,13 @@ public class EnemyScript : MonoBehaviour, ICreature
     public void SetHealth(int amount)
     {
         health = amount;
+        if (health > maxHealth) health = maxHealth;
+        if (health < 0) health = 0;
+        healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
+
+    }
+    public void ResetInfection()
+    {
+        infectionCounter = 0;
     }
 }

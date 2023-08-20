@@ -6,6 +6,7 @@ public class HurtboxScript : MonoBehaviour
 {
     public int damage;
     public int infect;
+    public bool infected;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,13 +29,23 @@ public class HurtboxScript : MonoBehaviour
         {
             return;
         }
-        if(damage > 0)
+
+        if(infected && ((MonoBehaviour)target).CompareTag("Infected"))
+        {
+            return;
+        }
+        if (!infected && ((MonoBehaviour)target).CompareTag("Enemy"))
+        {
+            return;
+        }
+
+        if (infect > 0)
+        {
+            target.Infect(infect);
+        }
+        if (damage > 0)
         {
             target.Damage(damage);
-        }
-        if(infect > 0)
-        {
-            target.Infect(damage);
         }
     }
 }
