@@ -1270,9 +1270,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a993b8c5046f36498a2a42b508aad75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   health: 100
   speed: 4
+  maxSpeed: 5
   target: {fileID: 0}
+  infected: 0
+  locked: 0
 --- !u!61 &1350541033
 BoxCollider2D:
   m_ObjectHideFlags: 0

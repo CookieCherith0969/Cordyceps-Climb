@@ -26,25 +26,7 @@ public class DoorScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        oldRoom = transform.parent.GetComponent<RoomScript>();
-        trigger = transform.Find("LoadTrigger");
-        float angle = Vector2.SignedAngle(transform.position, trigger.position);
-        if(angle < 45 && angle > -45)
-        {
-            exitDirection = Direction.Right;
-        }
-        else if(angle > 135 || angle < -135)
-        {
-            exitDirection = Direction.Left;
-        }
-        else if(angle > 45)
-        {
-            exitDirection = Direction.Up;
-        }
-        else
-        {
-            exitDirection = Direction.Down;
-        }
+        
     }
 
     // Update is called once per frame
@@ -52,17 +34,25 @@ public class DoorScript : MonoBehaviour
     {
         
     }
-    void Close()
+   public void Close()
     {
         isClosed = true;
         rb.simulated = true;
         animator.SetBool("isClosed", true);
     }
-    void Open()
+    public void CloseMushroom()
+    {
+        Debug.Log("Yes");
+        isClosed = true;
+        rb.simulated = true;
+        animator.SetBool("isMushroom", true);
+    }
+    public void Open()
     {
         isClosed = false;
         rb.simulated = false;
         animator.SetBool("isClosed", false);
+
     }
     void LoadNewRoom()
     {
