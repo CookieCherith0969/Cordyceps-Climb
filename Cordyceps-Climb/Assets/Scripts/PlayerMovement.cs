@@ -129,9 +129,24 @@ public class PlayerMovement : MonoBehaviour, ICreature
             }
             while(targets.Count > 0)
             {
+                int i = 0;
+                List<int> toRemove = new List<int>();
+                foreach (ICreature target in targets)
+                {
+                    if (target == null)
+                    {
+                        toRemove.Add(i);
+                    }
+                    i++;
+                }
+                foreach (int remove in toRemove)
+                {
+                    baseHealth.RemoveAt(remove);
+                    targets.RemoveAt(remove);
+                }
                 if (animator.GetBool("Hurt"))
                 {
-                    int i = 0;
+                    i = 0;
                     foreach (ICreature target in targets)
                     {
                         target.SetHealth(baseHealth[i]);
@@ -143,8 +158,8 @@ public class PlayerMovement : MonoBehaviour, ICreature
 
                 if (feeding)
                 {
-                    int i = 0;
-                    List<int> toRemove = new List<int>();
+                    i = 0;
+                    toRemove = new List<int>();
                     foreach (ICreature target in targets)
                     {
                         if (target.Damage(damage))
@@ -169,14 +184,14 @@ public class PlayerMovement : MonoBehaviour, ICreature
                 }
                 else
                 {
-                    int i = 0;
-                    List<int> toRemove = new List<int>();
+                    i = 0;
+                    toRemove = new List<int>();
                     foreach (ICreature target in targets)
                     {
                         if (target.Infect(damage))
                         {
                             target.SetHealth(baseHealth[i]);
-
+                            target.Damage(0);
                             toRemove.Add(i);
                             target.Free();
                             continue;
