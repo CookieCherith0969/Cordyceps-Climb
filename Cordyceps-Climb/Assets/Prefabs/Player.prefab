@@ -267,9 +267,12 @@ MonoBehaviour:
   movementSpeed: 5
   animator: {fileID: -5941962447834935176}
   health: 100
+  maxHealth: 100
+  damage: 20
   dead: 0
   feeding: 0
   infecting: 0
+  locked: 0
 --- !u!50 &2925047136424148659
 Rigidbody2D:
   serializedVersion: 4

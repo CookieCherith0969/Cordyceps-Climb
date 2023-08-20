@@ -191,7 +191,6 @@ public class PlayerMovement : MonoBehaviour, ICreature
                         if (target.Infect(damage))
                         {
                             target.SetHealth(baseHealth[i]);
-                            target.Damage(0);
                             toRemove.Add(i);
                             target.Free();
                             continue;
