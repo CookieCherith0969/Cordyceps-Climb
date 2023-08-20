@@ -13,10 +13,10 @@ public class DoorTrigger : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D player)
     {
-        if (cm.enemies.Count == 0) //if no enemies in room.
-        {
-            door.Open();
-        }
+        //if (cm.enemies.Count == 0) //if no enemies in room.
+        //{
+        door.Open();
+        //}
     }
     // Update is called once per frame
     void Update()
