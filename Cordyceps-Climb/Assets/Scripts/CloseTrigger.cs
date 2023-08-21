@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class CloseTrigger : MonoBehaviour
 {
-    public CreatureManager cm;
+    CreatureManager cm;
     public DoorScript door;
     // Start is called before the first frame update
     void Start()
     {
-        door = transform.parent.gameObject.GetComponent<DoorScript>();
+        cm = CreatureManager.activeManager;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("trying");
+        if (collision.gameObject != cm.player)
+        {
+            return;
+        }
         door.CloseMushroom();
     }
     // Update is called once per frame

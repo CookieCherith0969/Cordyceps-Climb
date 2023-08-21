@@ -238,7 +238,7 @@ Transform:
   - {fileID: 5739909957660847919}
   - {fileID: 5661684317262516929}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3902382460921232360
 BoxCollider2D:
@@ -358,6 +358,7 @@ MonoBehaviour:
   feeding: 0
   infecting: 0
   locked: 0
+  sporePack: {fileID: 543175627434030898, guid: 93b154f4d03a83e4b83816ebd8c6e7c4, type: 3}
 --- !u!50 &2925047136424148659
 Rigidbody2D:
   serializedVersion: 4

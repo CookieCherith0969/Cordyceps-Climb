@@ -20,7 +20,8 @@ public class HurtboxScript : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.transform == transform.parent)
+        Debug.Log(transform.parent.gameObject.name + " colliding " + collision.transform.gameObject.name);
+        if (collision.gameObject.transform == transform.parent)
         {
             return;
         }
@@ -38,9 +39,10 @@ public class HurtboxScript : MonoBehaviour
         {
             return;
         }
-
+        
         if (infect > 0)
         {
+            Debug.Log("Infecting "+((MonoBehaviour)target).gameObject.name);
             target.Infect(infect);
         }
         if (damage > 0)

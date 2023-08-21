@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class DoorTrigger : MonoBehaviour
 {
-    public CreatureManager cm;
+    CreatureManager cm;
     public DoorScript door;
     // Start is called before the first frame update
     void Start()
     {
-        door = transform.parent.gameObject.GetComponent<DoorScript>();
+        cm = CreatureManager.activeManager;
     }
-    private void OnTriggerEnter2D(Collider2D player)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (cm.enemies.Count == 0) //if no enemies in room.
-        //{
-        door.Open();
-        //}
+        if(collision.gameObject != cm.player)
+        {
+            return;
+        }
+        if (cm.enemies.Count == 0) //if no enemies in room.
+        {
+            door.Open();
+        }
     }
     // Update is called once per frame
     void Update()

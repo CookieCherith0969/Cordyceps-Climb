@@ -16,5 +16,6 @@ public interface ICreature
     public void Lock();
     public void Unlock();
     public void ResetInfection();
+    public bool IsInfected();
 
 }

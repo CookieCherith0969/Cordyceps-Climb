@@ -13,10 +13,10 @@ public class FloorScript : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (room.doReset)
-        {
-            other.transform.SetPositionAndRotation(room.origin.position, other.transform.rotation);
-        }
+        //if (room.doReset)
+        //{
+        //    other.transform.SetPositionAndRotation(room.origin.position, other.transform.rotation);
+        //}
         
     }
 }

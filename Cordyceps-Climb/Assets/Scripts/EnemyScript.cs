@@ -12,15 +12,19 @@ public class EnemyScript : MonoBehaviour, ICreature
     public float maxSpeed = 5;
     Animator animator;
     public Transform target;
+    ICreature targetScript;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     GameObject hurtbox;
+    BoxCollider2D hurtboxCollider;
     public bool infected = false;
     CreatureManager cm;
     public bool locked = false;
     Transform healthBar;
     HurtboxScript hurtboxScript;
     int infectionCounter = 0;
+    bool aggressive = true;
+    public float maxRange;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +33,9 @@ public class EnemyScript : MonoBehaviour, ICreature
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         hurtbox = transform.Find("Hurtbox").gameObject;
+        hurtboxCollider = hurtbox.GetComponent<BoxCollider2D>();
         hurtboxScript = hurtbox.GetComponent<HurtboxScript>();
-        cm = transform.parent.GetComponent<CreatureManager>();
+        cm = CreatureManager.activeManager;
         cm.RegisterNew(gameObject);
         StartCoroutine(SetTarget());
         healthBar = transform.Find("HealthBar");
@@ -49,13 +54,20 @@ public class EnemyScript : MonoBehaviour, ICreature
             {
                 GetTargetFromList(cm.enemies);
             }
+            
+            if (target == null)
+            {
+                target = cm.player.transform;
+            }
+
+            targetScript = (ICreature)target.gameObject.GetComponent(typeof(ICreature));
             yield return new WaitForSeconds(1);
         }
     }
 
     private void GetTargetFromList(List<GameObject> possibleTargets)
     {
-        float closeDistance = float.PositiveInfinity;
+        float closeDistance = maxRange;
         foreach (GameObject possibleTarget in possibleTargets)
         {
             float distance = Vector2.Distance(transform.position, possibleTarget.transform.position);
@@ -70,14 +82,16 @@ public class EnemyScript : MonoBehaviour, ICreature
     // Update is called once per frame
     void Update()
     {
+        
         if (locked || target == null || animator.GetBool("Attacking"))
         {
             rb.velocity = Vector2.zero;
             animator.SetFloat("Velocity", 0);
             return;
         }
-
-        if (Vector2.Distance(hurtbox.transform.position, target.position) < 0.5f)
+        float xDist = hurtbox.transform.position.x - target.position.x;
+        float yDist = hurtbox.transform.position.y - target.position.y;
+        if (targetScript.IsInfected() != infected && Math.Abs(xDist) < hurtboxCollider.size.x/2 && Math.Abs(yDist) < hurtboxCollider.size.y / 2)
         {
             rb.velocity = Vector2.zero;
             StartCoroutine(Attack(0.1f, 0.3f));
@@ -99,6 +113,12 @@ public class EnemyScript : MonoBehaviour, ICreature
         float newX = Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1;
         transform.localScale = new Vector3(newX, transform.localScale.y, transform.localScale.z);
     }
+
+    void OnDestroy()
+    {
+        cm.Deregister(gameObject);
+    }
+
     private IEnumerator Attack(float delay, float duration)
     {
         animator.SetBool("Attacking", true);
@@ -134,7 +154,6 @@ public class EnemyScript : MonoBehaviour, ICreature
         if (health < 1)
         {
             animator.SetBool("Dead", true);
-            cm.Deregister(gameObject);
             return true;
         }
         return false;
@@ -185,5 +204,9 @@ public class EnemyScript : MonoBehaviour, ICreature
     public void ResetInfection()
     {
         infectionCounter = 0;
+    }
+    public bool IsInfected()
+    {
+        return infected;
     }
 }

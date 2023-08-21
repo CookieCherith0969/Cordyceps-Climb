@@ -18,11 +18,12 @@ public class TransitionScript : MonoBehaviour
     {
         
     }
-
+    /*
     private void OnTriggerEnter2D(Collider2D other)
     {
         StartCoroutine(ChangeRoom(0.1f, other));
     }
+    
     private IEnumerator ChangeRoom(float time, Collider2D other)
     {
         
@@ -32,4 +33,5 @@ public class TransitionScript : MonoBehaviour
         parent.doReset = true;
         
     }
+    */
 }

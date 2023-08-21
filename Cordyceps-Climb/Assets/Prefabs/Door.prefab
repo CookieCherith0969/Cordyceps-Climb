@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6085334476255314920}
   - component: {fileID: 1711082151043263502}
   - component: {fileID: 8259385127567323277}
+  - component: {fileID: 4961018932012588259}
   m_Layer: 0
   m_Name: openTrigger
   m_TagString: Untagged
@@ -90,8 +91,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e420d51762936a44bc348b0199659a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cm: {fileID: 2490494885309527011, guid: 6a0f1fce7d6adbc41a4b6f13ff0e4717, type: 3}
-  door: {fileID: 0}
+  door: {fileID: 5442750228808269056}
+--- !u!50 &4961018932012588259
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605915663075555389}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &5005895283244719740
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +155,7 @@ Transform:
   - {fileID: 6085334476255314920}
   - {fileID: 4157733278563300696}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &7521301809025925063
 BoxCollider2D:
@@ -184,7 +211,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5005895283244719740}
   m_BodyType: 2
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -266,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbbe2a7ad1e7e374da6115fb26fbdafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isClosed: 0
+  isClosed: 1
   roomList: {fileID: 0}
 --- !u!95 &7294232492803373258
 Animator:
@@ -300,6 +327,7 @@ GameObject:
   - component: {fileID: 4157733278563300696}
   - component: {fileID: 5992192274027416204}
   - component: {fileID: 6361590227607610672}
+  - component: {fileID: 8960009273510341069}
   m_Layer: 0
   m_Name: closeTrigger
   m_TagString: Untagged
@@ -379,3 +407,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fb21a33d067da4fb3f95f8c8b16536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 5442750228808269056}
+--- !u!50 &8960009273510341069
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8890992924477929888}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

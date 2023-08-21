@@ -4,38 +4,18 @@ using UnityEngine;
 
 public class RoomScript : MonoBehaviour
 {
-    public Transform origin;
-    public bool doReset = true;
-    public List<Transform> northDoors;
-    public List<Transform> eastDoors;
-    public List<Transform> southDoors;
-    public List<Transform> westDoors;
+    public float height = 0;
+    public List<GameObject> enemies;
     // Start is called before the first frame update
     void Start()
     {
-        origin = transform.Find("Origin");
-        foreach (Transform child in gameObject.transform)
+        
+    }
+    public void ReleaseEnemies()
+    {
+        foreach(GameObject enemy in enemies)
         {
-            if(child.CompareTag("Door"))
-            {
-                float angle = child.rotation.eulerAngles.z;
-                if (angle < 45 && angle > -45)
-                {
-                    eastDoors.Add(child);
-                }
-                else if (angle > 135 || angle < -135)
-                {
-                    westDoors.Add(child);
-                }
-                else if (angle > 45)
-                {
-                    northDoors.Add(child);
-                }
-                else
-                {
-                    southDoors.Add(child);
-                }
-            }
+            enemy.SetActive(true);
         }
     }
 

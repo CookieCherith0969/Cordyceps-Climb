@@ -12,6 +12,7 @@ public class DoorScript : MonoBehaviour
     Transform trigger;
     Direction exitDirection = Direction.Right;
     bool loadedRoom = false;
+    RoomManager rm;
     // Start is called before the first frame update
     enum Direction
     {
@@ -26,7 +27,7 @@ public class DoorScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        
+        rm = RoomManager.activeManager;
     }
 
     // Update is called once per frame
@@ -36,30 +37,47 @@ public class DoorScript : MonoBehaviour
     }
    public void Close()
     {
+        if (isClosed)
+        {
+            return;
+        }
+
         isClosed = true;
         rb.simulated = true;
         animator.SetBool("isClosed", true);
     }
     public void CloseMushroom()
     {
-        Debug.Log("Yes");
+        if (isClosed)
+        {
+            return;
+        }
+
         isClosed = true;
         rb.simulated = true;
         animator.SetBool("isMushroom", true);
+        rm.loadNextRoom();
     }
     public void Open()
     {
+        if (!isClosed)
+        {
+            return;
+        }
+
         isClosed = false;
         rb.simulated = false;
         animator.SetBool("isClosed", false);
-
+        
     }
+    /*
     void LoadNewRoom()
     {
         if (!loadedRoom) { 
             GameObject newRoom = transform.parent.gameObject;
             RoomScript newScript = newRoom.GetComponent<RoomScript>();
             Transform newDoor = newScript.eastDoors[0];
+            
             switch (exitDirection)
             {
                 case Direction.Up:
@@ -93,6 +111,8 @@ public class DoorScript : MonoBehaviour
             Vector3 delta = trigger.position - newDoor.position;
             newRoom.transform.position += delta;
             loadedRoom = true;
+            
         }
     }
+    */
 }

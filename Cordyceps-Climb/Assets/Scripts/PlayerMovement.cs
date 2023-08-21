@@ -25,6 +25,14 @@ public class PlayerMovement : MonoBehaviour, ICreature
     GameObject bitebox;
     BiteboxScript boxScript;
     CreatureManager cm;
+    public GameObject sporePack;
+    List<GameObject> activeSpores;
+    public int maxSpores = 8;
+    
+    void Awake()
+    {
+        activeSpores = new List<GameObject>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +41,19 @@ public class PlayerMovement : MonoBehaviour, ICreature
         sr = GetComponent<SpriteRenderer>();
         bitebox = transform.Find("Hurtbox").gameObject;
         boxScript = bitebox.GetComponent<BiteboxScript>();
-        cm = transform.parent.GetComponent<CreatureManager>();
+        cm = CreatureManager.activeManager;
         cm.RegisterNew(gameObject);
         healthBar = transform.Find("HealthBar");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         if (locked)
         {
             rb.velocity = Vector2.zero;
@@ -51,7 +64,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
         if (Input.GetKeyDown(KeyCode.Z))
         {
             infecting = true;
-            StartCoroutine(Attack(1f));
+            StartCoroutine(Attack(0.610f));
             rb.velocity = Vector2.zero;
             animator.SetFloat("Velocity", 0);
             return;
@@ -60,7 +73,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
         if (Input.GetKeyDown(KeyCode.X))
         {
             feeding = true;
-            StartCoroutine(Attack(1f));
+            StartCoroutine(Attack(0.610f));
             rb.velocity = Vector2.zero;
             animator.SetFloat("Velocity", 0);
             return;
@@ -68,6 +81,8 @@ public class PlayerMovement : MonoBehaviour, ICreature
         
         if (Input.GetKeyDown(KeyCode.C))
         {
+            SpawnSpores();
+            
             //Spawn lil mushy guys
         }
         float horizontal = 0;
@@ -100,6 +115,12 @@ public class PlayerMovement : MonoBehaviour, ICreature
 
         animator.SetFloat("Velocity", rb.velocity.magnitude);
     }
+
+    void OnDestroy()
+    {
+        cm.Deregister(gameObject);
+    }
+
     public void Lock()
     {
         locked = true;
@@ -156,6 +177,35 @@ public class PlayerMovement : MonoBehaviour, ICreature
         Unlock();
     }
 
+    void SpawnSpores()
+    {
+        if (animator.GetBool("Hurt"))
+        {
+            return;
+        }
+        Damage(10);
+        GameObject newPack = Instantiate(sporePack, transform.position, transform.rotation);
+        newPack.transform.parent = transform.parent;
+        foreach(Transform spore in newPack.transform)
+        {
+            activeSpores.Add(spore.gameObject);
+        }
+        for(int i = activeSpores.Count-1; i >= 0; i--)
+        {
+            if(activeSpores[i] == null)
+            {
+                activeSpores.RemoveAt(i);
+            }
+        }
+        while(activeSpores.Count > maxSpores)
+        {
+            GameObject toRemove = activeSpores[0];
+            activeSpores.RemoveAt(0);
+            Destroy(toRemove);
+        }
+        
+    }
+
     private void InfectingTick(List<ICreature> targets, List<int> baseHealth)
     {
         for (int i = targets.Count - 1; i >= 0; i--)
@@ -185,9 +235,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
             }
             if (targets[i].Damage(damage))
             {
-                health += baseHealth[i];
-
-                if (health > maxHealth) health = maxHealth;
+                SetHealth(health + baseHealth[i]);
                 
                 targets.RemoveAt(i);
             }
@@ -207,7 +255,7 @@ public class PlayerMovement : MonoBehaviour, ICreature
         {
             animator.SetBool("Dead", true);
             dead = true;
-            cm.Deregister(gameObject);
+            Lock();
             return true;
         }
         animator.SetBool("Hurt", true);
@@ -227,5 +275,9 @@ public class PlayerMovement : MonoBehaviour, ICreature
     public void ResetInfection()
     {
 
+    }
+    public bool IsInfected()
+    {
+        return true;
     }
 }

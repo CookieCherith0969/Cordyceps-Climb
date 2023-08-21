@@ -11,6 +11,7 @@ public class SporeScript : MonoBehaviour, ICreature
     public float maxSpeed = 3;
     Animator animator;
     public Transform target;
+    ICreature targetScript;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     GameObject hurtbox;
@@ -18,6 +19,8 @@ public class SporeScript : MonoBehaviour, ICreature
     CreatureManager cm;
     public bool locked = false;
     Transform healthBar;
+    bool aggressive = true;
+    public float maxRange;
 
     // Start is called before the first frame update
     void Start()
@@ -26,45 +29,46 @@ public class SporeScript : MonoBehaviour, ICreature
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         hurtbox = transform.Find("Hurtbox").gameObject;
-        cm = transform.parent.GetComponent<CreatureManager>();
+        cm = CreatureManager.activeManager;
         cm.RegisterNew(gameObject);
         StartCoroutine(SetTarget());
         healthBar = transform.Find("HealthBar");
     }
     private IEnumerator SetTarget()
     {
-        float closeDistance;
-        float distance;
         while (true)
         {
-            if (cm.enemies.Count > 0)
-            {
-                target = cm.enemies[0].transform;
-                closeDistance = Vector2.Distance(transform.position, target.position);
+            target = null;
+            GetTargetFromList(cm.enemies);
 
-                foreach (GameObject enemy in cm.enemies)
-                {
-                    distance = Vector2.Distance(transform.position, enemy.transform.position);
-                    if (distance < closeDistance)
-                    {
-                        target = enemy.transform;
-                        closeDistance = distance;
-
-                    }
-                }
-            }
-            else
+            if (target == null)
             {
-                target = null;
+                target = cm.player.transform;
             }
+
+            targetScript = (ICreature)target.gameObject.GetComponent(typeof(ICreature));
             yield return new WaitForSeconds(1);
         }
-
-
     }
+
+    private void GetTargetFromList(List<GameObject> possibleTargets)
+    {
+        float closeDistance = maxRange;
+        foreach (GameObject possibleTarget in possibleTargets)
+        {
+            float distance = Vector2.Distance(transform.position, possibleTarget.transform.position);
+            if (distance < closeDistance)
+            {
+                target = possibleTarget.transform;
+                closeDistance = distance;
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        
         if (target == null || locked)
         {
             rb.velocity = Vector2.zero;
@@ -80,11 +84,11 @@ public class SporeScript : MonoBehaviour, ICreature
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
         transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * rb.velocity.x < 0 ? -1 : 1, transform.localScale.y, transform.localScale.z);
-        if (!animator.GetBool("Attacking") && Vector2.Distance(hurtbox.transform.position, target.position) < 1)
+        if (!targetScript.IsInfected() && !animator.GetBool("Attacking") && Vector2.Distance(hurtbox.transform.position, target.position) < 1)
         {
             rb.velocity = Vector2.zero;
             
-            cm.Deregister(gameObject);
+            //cm.Deregister(gameObject);
             StartCoroutine(Attack(0.1f));
         }
         else if (animator.GetBool("Attacking"))
@@ -94,6 +98,12 @@ public class SporeScript : MonoBehaviour, ICreature
         animator.SetFloat("Velocity", rb.velocity.magnitude);
 
     }
+
+    void OnDestroy()
+    {
+        cm.Deregister(gameObject);
+    }
+
     private IEnumerator Attack(float delay)
     {
         animator.SetBool("Attacking", true);
@@ -122,7 +132,7 @@ public class SporeScript : MonoBehaviour, ICreature
         if (health < 1)
         {
             animator.SetBool("Dead", true);
-            cm.Deregister(gameObject);
+            //cm.Deregister(gameObject);
             return true;
         }
         return false;
@@ -140,5 +150,9 @@ public class SporeScript : MonoBehaviour, ICreature
     public void ResetInfection()
     {
 
+    }
+    public bool IsInfected()
+    {
+        return infected;
     }
 }

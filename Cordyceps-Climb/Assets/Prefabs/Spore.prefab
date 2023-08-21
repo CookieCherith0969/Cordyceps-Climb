@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7998468980152319302}
   - component: {fileID: 4486241171619023257}
   - component: {fileID: 5511987939275346973}
+  - component: {fileID: 8743881002142313088}
   m_Layer: 0
   m_Name: Hurtbox
   m_TagString: Untagged
@@ -45,7 +46,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -91,8 +92,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  infect: 5
+  infect: 15
   infected: 1
+--- !u!50 &8743881002142313088
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859516308168488406}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &3248270484389586629
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +278,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -274,6 +302,7 @@ MonoBehaviour:
   target: {fileID: 0}
   infected: 0
   locked: 1
+  maxRange: 4
 --- !u!95 &1498591983234420607
 Animator:
   serializedVersion: 5

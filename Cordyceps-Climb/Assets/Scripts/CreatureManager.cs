@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class CreatureManager : MonoBehaviour
 {
+    public static CreatureManager activeManager;
     public List<GameObject> enemies;
     public List<GameObject> infected;
     public GameObject player;
+    
+    private void Awake()
+    {
+        activeManager = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        //foreach(Transform child in transform)
-        //{
-        //    if (child.CompareTag("Enemy"))
-        //    {
-        //        enemies.Add(child.gameObject);
-        //    }
-        //    else if (child.CompareTag("Infected"))
-        //    {
-        //        infected.Add(child.gameObject);
-        //    }
-        //}
+
     }
 
     // Update is called once per frame
@@ -46,7 +42,7 @@ public class CreatureManager : MonoBehaviour
         {
             infected.Add(newChild);
         }
-        Debug.Log("Registered " + newChild.name);
+        //Debug.Log("Registered " + newChild.name);
     }
     public void RegisterNew(GameObject newChild)
     {
@@ -58,7 +54,7 @@ public class CreatureManager : MonoBehaviour
         {
             infected.Add(newChild);
         }
-        Debug.Log("Registered " + newChild.name);
+        //Debug.Log("Registered " + newChild.name);
     }
     public void Deregister(GameObject child)
     {
@@ -70,7 +66,21 @@ public class CreatureManager : MonoBehaviour
         {
             infected.Remove(child);
         }
-        Debug.Log("Deregistered " + child.name);
+        //Debug.Log("Deregistered " + child.name);
+    }
+
+    public int ClearInfected()
+    {
+        int totalHealth = 0;
+        for (int i = infected.Count - 1; i >= 0; i--)
+        {
+            if(infected[i] != player)
+            {
+                totalHealth += ((ICreature)infected[i].GetComponent(typeof(ICreature))).GetHealth();
+                infected.RemoveAt(i);
+            }
+        }
+        return totalHealth;
     }
     public GameObject GetPlayer()
     {
