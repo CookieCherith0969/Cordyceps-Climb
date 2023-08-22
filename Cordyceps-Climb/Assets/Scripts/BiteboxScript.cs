@@ -5,10 +5,14 @@ using UnityEngine;
 public class BiteboxScript : MonoBehaviour
 {
     public List<ICreature> targets;
+    private void Awake()
+    {
+        targets = new List<ICreature>();
+
+    }
     // Start is called before the first frame update
     void Start()
     {
-        targets = new List<ICreature>();
     }
 
     // Update is called once per frame

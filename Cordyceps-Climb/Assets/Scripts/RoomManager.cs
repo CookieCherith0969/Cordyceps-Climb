@@ -8,6 +8,7 @@ public class RoomManager : MonoBehaviour
     public List<GameObject> activeRooms;
     public List<GameObject> rooms;
     float offset = 0;
+    int roomsCleared = -1;
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,6 +30,8 @@ public class RoomManager : MonoBehaviour
         activeRooms.Add(nextRoom);
         RoomScript currentRoom = activeRooms[1].GetComponent<RoomScript>();
         currentRoom.ReleaseEnemies();
+        roomsCleared++;
+        UIManager.activeManager.UpdateClears(roomsCleared);
     }
     // Update is called once per frame
     void Update()
