@@ -18,5 +18,13 @@ public class RoomScript : MonoBehaviour
             enemy.SetActive(true);
         }
     }
-
+    public void ClearInfected()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            ICreature enemyScript = (ICreature)enemy.GetComponent(typeof(ICreature));
+            enemyScript.Lock();
+            enemyScript.SetHealth(0);
+        }
+    }
 }

@@ -198,6 +198,10 @@ public class EnemyScript : MonoBehaviour, ICreature
         health = amount;
         if (health > maxHealth) health = maxHealth;
         if (health < 0) health = 0;
+        if (health < 1)
+        {
+            animator.SetBool("Dead", true);
+        }
         healthBar.localScale = new Vector3(2 * ((float)health / (float)maxHealth), healthBar.localScale.y, healthBar.localScale.z);
 
     }

@@ -8,11 +8,12 @@ public class DoorScript : MonoBehaviour
     private bool isClosed = false;
     Rigidbody2D rb;
     Animator animator;
-    RoomScript oldRoom;
+    RoomScript room;
     Transform trigger;
     Direction exitDirection = Direction.Right;
     bool loadedRoom = false;
     RoomManager rm;
+    public bool clearOnLeave = false;
     // Start is called before the first frame update
     enum Direction
     {
@@ -28,6 +29,7 @@ public class DoorScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         rm = RoomManager.activeManager;
+        room = transform.parent.GetComponent<RoomScript>();
     }
 
     // Update is called once per frame
@@ -68,6 +70,7 @@ public class DoorScript : MonoBehaviour
         isClosed = false;
         rb.simulated = false;
         animator.SetBool("isClosed", false);
+        if(clearOnLeave) room.ClearInfected();
         
     }
     /*
